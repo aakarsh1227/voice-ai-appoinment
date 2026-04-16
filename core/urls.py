@@ -21,7 +21,7 @@ from appointments.views import vapi_webhook
 
 # A tiny view function right here for the home page
 def home(request):
-    return render(request, 'index.html')
+    return render(request, 'appointments/index.html')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
