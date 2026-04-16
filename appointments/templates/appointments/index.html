@@ -1,25 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Clinic Voice Assistant</title>
+    <title>Voice AI Clinic</title>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background: #f4f7f6; }
+        .card { text-align: center; padding: 40px; background: white; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        button { padding: 15px 30px; font-size: 18px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+    </style>
 </head>
 <body>
-    <div style="text-align: center; margin-top: 100px;">
-        <h1>Welcome to the Clinic</h1>
-        <button id="callBtn" style="padding: 20px 40px; font-size: 20px; cursor: pointer;">
-            Speak to Book Appointment
-        </button>
+    <div class="card">
+        <h1>Clinic Appointment Assistant</h1>
+        <p>Click below and speak naturally to book your appointment.</p>
+        <button id="callBtn">Start Voice Booking</button>
     </div>
 
     <script src="https://cdn.jsdelivr.net/gh/vapi-ai/web-sdk@latest/dist/vapi-sdk.js"></script>
     <script>
         const vapi = new Vapi('608a8199-5983-4b0d-bea7-5d86465baab3');
-
-        document.getElementById('callBtn').addEventListener('click', () => {
-            // Replace with the Assistant ID you get from the Vapi Dashboard
-            vapi.start('YOUR_ASSISTANT_ID'); 
-            document.getElementById('callBtn').innerText = "Assistant Listening...";
-        });
+        document.getElementById('callBtn').onclick = () => {
+            vapi.start('YOUR_ASSISTANT_ID_FROM_VAPI_DASHBOARD');
+            document.getElementById('callBtn').innerText = "Listening...";
+        };
     </script>
 </body>
 </html>

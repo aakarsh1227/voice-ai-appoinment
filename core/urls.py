@@ -16,9 +16,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.shortcuts import render # Add this
 from appointments.views import vapi_webhook
+
+# A tiny view function right here for the home page
+def home(request):
+    return render(request, 'index.html')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/webhook/', vapi_webhook), # This is your Public URL/api/webhook/
+    path('', home), # This fixes the 404!
+    path('api/webhook/', vapi_webhook),
 ]
