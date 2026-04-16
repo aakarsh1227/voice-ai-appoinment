@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Clinic Voice Assistant</title>
+</head>
+<body>
+    <div style="text-align: center; margin-top: 100px;">
+        <h1>Welcome to the Clinic</h1>
+        <button id="callBtn" style="padding: 20px 40px; font-size: 20px; cursor: pointer;">
+            Speak to Book Appointment
+        </button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/gh/vapi-ai/web-sdk@latest/dist/vapi-sdk.js"></script>
+    <script>
+        const vapi = new Vapi('608a8199-5983-4b0d-bea7-5d86465baab3');
+
+        document.getElementById('callBtn').addEventListener('click', () => {
+            // Replace with the Assistant ID you get from the Vapi Dashboard
+            vapi.start('YOUR_ASSISTANT_ID'); 
+            document.getElementById('callBtn').innerText = "Assistant Listening...";
+        });
+    </script>
+</body>
+</html>
