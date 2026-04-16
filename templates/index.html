@@ -1,17 +1,99 @@
-<script src="https://cdn.jsdelivr.net/gh/vapi-ai/web-sdk@latest/dist/vapi-sdk.js"></script>
-<script>
-  // This is your PUBLIC KEY
-  const vapi = new Vapi('608a8199-5983-4b0d-bea7-5d86465baab3');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice AI Clinic - Patient Booking</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            margin: 0; 
+            background: #f0f2f5; 
+        }
+        .card { 
+            text-align: center; 
+            padding: 50px; 
+            background: white; 
+            border-radius: 16px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1); 
+            max-width: 400px;
+        }
+        h1 { color: #1a73e8; margin-bottom: 10px; }
+        p { color: #5f6368; margin-bottom: 30px; line-height: 1.5; }
+        button { 
+            padding: 18px 35px; 
+            font-size: 18px; 
+            font-weight: bold;
+            background: #1a73e8; 
+            color: white; 
+            border: none; 
+            border-radius: 30px; 
+            cursor: pointer; 
+            transition: transform 0.2s, background 0.2s;
+        }
+        button:hover { 
+            background: #1557b0; 
+            transform: scale(1.05);
+        }
+        button:disabled { background: #ccc; cursor: not-allowed; }
+        #status { margin-top: 20px; font-size: 14px; color: #d93025; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Clinic Assistant</h1>
+        <p>Book your appointment by speaking. No forms, just talk to our AI receptionist.</p>
+        
+        <button id="callBtn">Start Voice Booking</button>
+        <div id="status"></div>
+    </div>
 
-  document.getElementById('callBtn').onclick = () => {
-    // This is your ASSISTANT ID
-    vapi.start('6b5356e0-d38c-4c85-b7b9-d224f8c760cc');
+    <script src="https://cdn.jsdelivr.net/gh/vapi-ai/web-sdk@latest/dist/vapi-sdk.js"></script>
     
-    document.getElementById('callBtn').innerText = "Connecting to Clinic...";
-  };
+    <script>
+        // Initialize Vapi with your Public Key
+        const vapi = new Vapi('608a8199-5983-4b0d-bea7-5d86465baab3');
+        const btn = document.getElementById('callBtn');
+        const statusDiv = document.getElementById('status');
 
-  // Optional: Change button text back when call ends
-  vapi.on('call-end', () => {
-    document.getElementById('callBtn').innerText = "Start Voice Booking";
-  });
-</script>
+        btn.onclick = () => {
+            statusDiv.innerText = ""; // Clear previous errors
+            btn.innerText = "Connecting...";
+            btn.disabled = true;
+
+            // Start the call with your Assistant ID
+            vapi.start('6b5356e0-d38c-4c85-b7b9-d224f8c760cc')
+                .then(() => {
+                    console.log("Call started successfully");
+                })
+                .catch((err) => {
+                    console.error("Vapi Error:", err);
+                    btn.innerText = "Start Voice Booking";
+                    btn.disabled = false;
+                    statusDiv.innerText = "Error: " + err.message + ". Check microphone permissions.";
+                });
+        };
+
+        // Listen for call events to update UI
+        vapi.on('call-start', () => {
+            btn.innerText = "Listening... Speak Now";
+            btn.style.background = "#34a853"; // Change to green when active
+        });
+
+        vapi.on('call-end', () => {
+            btn.innerText = "Start Voice Booking";
+            btn.style.background = "#1a73e8";
+            btn.disabled = false;
+        });
+
+        vapi.on('error', (err) => {
+            console.error(err);
+            statusDiv.innerText = "Connection error. Please refresh.";
+        });
+    </script>
+</body>
+</html>
